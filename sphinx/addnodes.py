@@ -202,11 +202,13 @@ class desc_optional(nodes.Part, nodes.Inline, nodes.FixedTextElement):
 
 class desc_annotation(nodes.Part, nodes.Inline, nodes.FixedTextElement):
     """Node for signature annotations (not Python 3-style annotations)."""
-    def __init__(self, rawsource: str = '', text: str = '', right_aligned: bool = False,
+    def __init__(self, rawsource: str = '', text: str = '', right_aligned: bool = False, declspec: bool = False,
                  *children: Element, **attributes: Any) -> None:
         super().__init__(rawsource, text, *children, **attributes)
         if right_aligned:
             self['classes'].extend(["right-aligned"])
+        if declspec:
+            self['classes'].extend(["declspec"])
 
 
 class desc_content(nodes.General, nodes.Element):

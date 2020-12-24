@@ -2074,7 +2074,7 @@ class ASTDeclSpecsSimple(ASTBase):
         def _add(signode: TextElement, text: str) -> bool:
             if addSpace:
                 signode += nodes.Text(' ')
-            signode += addnodes.desc_annotation(text, text)
+            signode += addnodes.desc_annotation(text, text, declspec=True)
             return True
 
         if self.storage:
