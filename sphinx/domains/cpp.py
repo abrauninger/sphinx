@@ -2146,13 +2146,9 @@ class ASTDeclSpecs(ASTBase):
     def describe_signature(self, signode: TextElement, mode: str,
                            env: "BuildEnvironment", symbol: "Symbol") -> None:
         verify_description_mode(mode)
-        numChildren = len(signode)
         self.leftSpecs.describe_signature(signode)
-        addSpace = len(signode) != numChildren
 
         if self.trailingTypeSpec:
-            if addSpace:
-                signode += nodes.Text(' ')
             numChildren = len(signode)
             self.trailingTypeSpec.describe_signature(signode, mode, env,
                                                      symbol=symbol)
