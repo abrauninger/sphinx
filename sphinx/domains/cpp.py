@@ -2391,6 +2391,13 @@ class ASTDeclaratorPtr(ASTDeclarator):
             return False
         return self.next.require_space_after_declSpecs(env)
 
+    def space_after_ptr(self, env: BuildEnvironment) -> bool:
+        val = _check_pointer_alignment_arg(env.config.cpp_pointer_alignment)
+        if val is _PointerAlignment.Right:
+            # If using "right" placement, never put a space after the `*`
+            return False
+        return self.next.require_space_after_declSpecs(env)
+
     def require_space_after_declSpecs(self, env: Optional[BuildEnvironment]) -> bool:
         return self.space_before_ptr(env) \
             if env else self.next.require_space_after_declSpecs(None)
@@ -2469,7 +2476,7 @@ class ASTDeclaratorPtr(ASTDeclarator):
             _add_anno(signode, 'const')
         # Conditions in which we may want a space after the `*`
         allow_space_after = (
-            (env and not self.space_before_ptr(env)) or
+            (env and self.space_after_ptr(env)) or
             self.const or
             self.volatile or
             len(self.attrs) > 0
@@ -2501,6 +2508,13 @@ class ASTDeclaratorRef(ASTDeclarator):
         val = _check_pointer_alignment_arg(env.config.cpp_pointer_alignment)
         if val is _PointerAlignment.Left:
             # If using "left" placement, never put a space before the `&`
+            return False
+        return self.next.require_space_after_declSpecs(env)
+
+    def space_after_ref(self, env: BuildEnvironment) -> bool:
+        val = _check_pointer_alignment_arg(env.config.cpp_pointer_alignment)
+        if val is _PointerAlignment.Right:
+            # If using "right" placement, never put a space after the `&`
             return False
         return self.next.require_space_after_declSpecs(env)
 
@@ -2548,7 +2562,7 @@ class ASTDeclaratorRef(ASTDeclarator):
         for a in self.attrs:
             a.describe_signature(signode)
         allow_space_before = (
-            (env and not self.space_before_ref(env)) or
+            (env and self.space_after_ref(env)) or
             len(self.attrs) > 0
         )
         if allow_space_before and self.next.require_space_after_declSpecs(env):
