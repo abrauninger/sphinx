@@ -1880,7 +1880,7 @@ class ASTNoexceptSpec(ASTBase):
 
     def describe_signature(self, signode: TextElement, mode: str,
                            env: "BuildEnvironment", symbol: "Symbol") -> None:
-        signode += addnodes.desc_annotation('noexcept', 'noexcept')
+        signode += addnodes.desc_annotation('noexcept', 'noexcept', right_aligned=True)
         if self.expr:
             signode.append(nodes.Text('('))
             self.expr.describe_signature(signode, mode, env, symbol)
@@ -1983,7 +1983,7 @@ class ASTParametersQualifiers(ASTBase):
 
         def _add_anno(signode: TextElement, text: str) -> None:
             signode += nodes.Text(' ')
-            signode += addnodes.desc_annotation(text, text)
+            signode += addnodes.desc_annotation(text, text, right_aligned=True)
 
         def _add_text(signode: TextElement, text: str) -> None:
             signode += nodes.Text(' ' + text)
