@@ -2707,7 +2707,7 @@ class ASTDeclaratorMemPtr(ASTDeclarator):
         signode += nodes.Text('::*')
 
         def _add_anno(signode: TextElement, text: str) -> None:
-            signode += addnodes.desc_annotation(text, text)
+            signode += addnodes.desc_annotation(text, text, right_aligned=True)
         if self.volatile:
             _add_anno(signode, 'volatile')
         if self.const:
@@ -3159,7 +3159,7 @@ class ASTClass(ASTBase):
         self.name.describe_signature(signode, mode, env, symbol=symbol)
         if self.final:
             signode += nodes.Text(' ')
-            signode += addnodes.desc_annotation('final', 'final')
+            signode += addnodes.desc_annotation('final', 'final', right_aligned=True)
         if len(self.bases) > 0:
             signode += nodes.Text(' : ')
             for b in self.bases:
