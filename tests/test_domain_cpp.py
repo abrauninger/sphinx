@@ -65,7 +65,7 @@ def _check(name, input, idDict, output, key, asTextOutput):
     parentNode = addnodes.desc()
     signode = addnodes.desc_signature(input, '')
     parentNode += signode
-    ast.describe_signature(signode, 'lastIsName', symbol, options={})
+    ast.describe_signature(signode, 'lastIsName', None, options={})
     resAsText = parentNode.astext()
     if resAsText != outputAsText:
         print("")
